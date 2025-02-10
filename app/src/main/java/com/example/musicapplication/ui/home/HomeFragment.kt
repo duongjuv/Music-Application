@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
             setupObserver()
             isObserver = true
         }
-
     }
 
     private fun setupObserver() {

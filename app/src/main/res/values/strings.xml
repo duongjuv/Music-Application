@@ -30,4 +30,12 @@
     <string name="title_song_list">Songs List</string>
     <string name="text_playlist_num_of_song">Number of song: %d</string>
     <string name="title_more_recommended">Recommended songs</string>
+    <string name="item_download">Download song</string>
+    <string name="item_favorite">Add to favorite</string>
+    <string name="item_playlist">Add to playlist</string>
+    <string name="item_add_to_queue">Add to play next</string>
+    <string name="item_view_album">View album</string>
+    <string name="item_view_artist">View artist</string>
+    <string name="item_block">Block</string>
+    <string name="item_report_error">Report error</string>
 </resources>
