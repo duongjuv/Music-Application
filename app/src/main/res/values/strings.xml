@@ -38,4 +38,5 @@
     <string name="item_view_artist">View artist</string>
     <string name="item_block">Block</string>
     <string name="item_report_error">Report error</string>
+    <string name="item_view_song_information">View song information</string>
 </resources>

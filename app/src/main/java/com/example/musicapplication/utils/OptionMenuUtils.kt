@@ -20,8 +20,7 @@ object OptionMenuUtils {
         menuItem.add(MenuItem(OptionMenu.VIEW_ARTIST, R.drawable.ic_artist, R.string.item_view_artist))
         menuItem.add(MenuItem(OptionMenu.BLOCK, R.drawable.ic_block, R.string.item_block))
         menuItem.add(MenuItem(OptionMenu.REPORT_ERROR, R.drawable.ic_report, R.string.item_report_error))
-
-
+        menuItem.add(MenuItem(OptionMenu.VIEW_SONG_INFORMATION, R.drawable.ic_info, R.string.item_view_song_information))
     }
 
     @JvmStatic
