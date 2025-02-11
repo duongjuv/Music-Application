@@ -20,5 +20,4 @@ class SongOptionMenuViewModel : ViewModel() {
     fun setSong(song: Song) {
         _song.value = song
     }
-
 }

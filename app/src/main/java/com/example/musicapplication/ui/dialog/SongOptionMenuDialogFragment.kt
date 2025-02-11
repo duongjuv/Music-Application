@@ -108,6 +108,6 @@ class SongOptionMenuDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         val newInstance = SongOptionMenuDialogFragment()
-        val TAG = SongOptionMenuDialogFragment::class.java.simpleName
+        val TAG: String = SongOptionMenuDialogFragment::class.java.simpleName
     }
 }

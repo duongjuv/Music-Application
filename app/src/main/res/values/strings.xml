@@ -39,4 +39,13 @@
     <string name="item_block">Block</string>
     <string name="item_report_error">Report error</string>
     <string name="item_view_song_information">View song information</string>
+    <string name="text_song_detail_title">Title: %s</string>
+    <string name="text_song_detail_artist">Artist: %s</string>
+    <string name="text_song_detail_album">Album: %s</string>
+    <string name="text_song_detail_duration">Duration: %d</string>
+    <string name="text_song_detail_counter">Number of plays: %d</string>
+    <string name="text_song_detail_replay_counter">Number of replay: %d</string>
+    <string name="text_song_detail_favorite_status">Is your favorite song: %s</string>
+    <string name="text_song_detail_genre">Genre: %s</string>
+    <string name="text_song_detail_year">Publish year: $s</string>
 </resources>
