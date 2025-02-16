@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.musicapplication.ui.dialog.DialogSongInfoFragment">
 
     <ImageView
@@ -13,6 +14,7 @@
         android:layout_marginTop="@dimen/margin_8"
         android:background="@android:color/transparent"
         android:contentDescription="@string/image_desc"
+        tools:ignore="ImageContrastCheck"
         tools:src="@tools:sample/avatars" />
 
     <View
@@ -32,7 +34,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_artist"
@@ -42,7 +45,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_artist"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_album"
@@ -52,7 +56,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_album"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_duration"
@@ -62,7 +67,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_duration"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_counter"
@@ -72,7 +78,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_counter"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_replay_counter"
@@ -82,7 +89,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_replay_counter"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_favorite_status"
@@ -92,7 +100,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_favorite_status"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_genre"
@@ -102,7 +111,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/text_song_detail_genre"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/text_song_detail_year"
@@ -115,4 +125,4 @@
         android:text="@string/text_song_detail_year"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-</FrameLayout>
+</LinearLayout>

@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapplication.data.model.song.Song
+import com.example.musicapplication.utils.OptionMenuUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import net.braniumacademy.musicapplication.R
 import net.braniumacademy.musicapplication.databinding.DialogFragmentSongOptionMenuBinding
@@ -16,7 +17,8 @@ import net.braniumacademy.musicapplication.databinding.ItemOptionMenuBinding
 class SongOptionMenuDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: DialogFragmentSongOptionMenuBinding
     private lateinit var adapter: MenuItemAdapter
-    private val viewmodel: SongOptionMenuViewModel by activityViewModels()
+    private val viewModel: SongOptionMenuViewModel by activityViewModels()
+    private val songInfoViewModel: DialogSongInfoViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,17 +39,71 @@ class SongOptionMenuDialogFragment : BottomSheetDialogFragment() {
         adapter =
             MenuItemAdapter(listener = object : MenuItemAdapter.OnOptionMenuItemClickListener {
                 override fun onClick(item: MenuItem) {
-                    // todo
+                    onMenuItemClick(item)
                 }
             })
         binding.rvOptionMenu.adapter = adapter
     }
 
+    private fun onMenuItemClick(item: MenuItem) {
+        when (item.option) {
+            OptionMenuUtils.OptionMenu.DOWNLOAD -> downloadSong()
+            OptionMenuUtils.OptionMenu.VIEW_SONG_INFORMATION -> showDetailSongInfo()
+            OptionMenuUtils.OptionMenu.ADD_TO_FAVOURITE -> addToFavorite()
+            OptionMenuUtils.OptionMenu.ADD_TO_PLAYLIST -> addToPlaylist()
+            OptionMenuUtils.OptionMenu.ADD_TO_QUEUE -> addToQueue()
+            OptionMenuUtils.OptionMenu.VIEW_ARTIST -> viewArtist()
+            OptionMenuUtils.OptionMenu.VIEW_ALBUM -> viewAlbum()
+            OptionMenuUtils.OptionMenu.BLOCK -> block()
+            OptionMenuUtils.OptionMenu.REPORT_ERROR -> report()
+        }
+    }
+
+    private fun downloadSong() {
+        // todo
+    }
+
+    private fun showDetailSongInfo() {
+        songInfoViewModel.setSong(viewModel.song.value!!)
+        DialogSongInfoFragment.newInstance().show(
+            requireActivity().supportFragmentManager,
+            DialogSongInfoFragment.TAG
+        )
+    }
+
+    private fun addToFavorite() {
+        // todo
+    }
+
+    private fun addToPlaylist() {
+        // todo
+    }
+
+    private fun addToQueue() {
+        // todo
+    }
+
+    private fun viewArtist() {
+        // todo
+    }
+
+    private fun viewAlbum() {
+        // todo
+    }
+
+    private fun block() {
+        // todo
+    }
+
+    private fun report() {
+        // todo
+    }
+
     private fun setupObserver() {
-        viewmodel.optionMenuItem.observe(viewLifecycleOwner) { items ->
+        viewModel.optionMenuItem.observe(viewLifecycleOwner) { items ->
             adapter.updateMenuItem(items)
         }
-        viewmodel.song.observe(viewLifecycleOwner) { song ->
+        viewModel.song.observe(viewLifecycleOwner) { song ->
             showSongInformation(song)
         }
     }

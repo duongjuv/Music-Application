@@ -47,5 +47,8 @@
     <string name="text_song_detail_replay_counter">Number of replay: %d</string>
     <string name="text_song_detail_favorite_status">Is your favorite song: %s</string>
     <string name="text_song_detail_genre">Genre: %s</string>
-    <string name="text_song_detail_year">Publish year: $s</string>
+    <string name="text_song_detail_year">Publish year: %s</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="not_available">Not Available</string>
 </resources>
