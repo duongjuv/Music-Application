@@ -28,7 +28,6 @@ class MoreRecommendedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObserver()
-
     }
 
     private fun setupViews() {

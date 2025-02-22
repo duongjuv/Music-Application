@@ -31,4 +31,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcv_mini_player"
+        android:name="com.example.musicapplication.ui.playing.MiniPlayerFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_mini_player" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
