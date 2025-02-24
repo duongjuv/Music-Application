@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.musicapplication.ResultCallback
 import com.example.musicapplication.data.model.album.Album
@@ -28,6 +29,9 @@ class HomeViewModel(
         get() = _albums
     val songs: LiveData<List<Song>>
         get() = _songs
+
+    val localSongs: LiveData<List<Song>>
+        get() = songRepository.songs.asLiveData()
 
     init {
         loadSongs()
@@ -62,6 +66,33 @@ class HomeViewModel(
             })
         }
     }
+
+    fun saveSongToDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val songToSave = extractSong()
+            if(songToSave.isNotEmpty()) {
+                val songArray = songToSave.toTypedArray()
+                songRepository.insertSong(*songArray)
+            }
+        }
+    }
+
+
+    private fun extractSong(): List<Song> {
+        val results: MutableList<Song> = mutableListOf()
+        val localSong = localSongs.value
+        if (localSong == null) {
+            _songs.value?.let { results.addAll(it) }
+        } else if (_songs.value != null) {
+            for (song in _songs.value!!) {
+                if (!localSong.contains(song)) {
+                    results.add(song)
+                }
+            }
+        }
+        return results
+    }
+
 
     class Factory(
         private val songRepository: SongRepositoryImpl

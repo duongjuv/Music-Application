@@ -15,7 +15,7 @@ import net.braniumacademy.musicapplication.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var _binding: FragmentHomeBinding
-    private val homeView: HomeViewModel by activityViewModels {
+    private val homeViewModel: HomeViewModel by activityViewModels {
         val application = requireActivity().application as MusicApplication
         HomeViewModel.Factory(
             application.getSongRepository()
@@ -37,20 +37,27 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!isObserver){
+        if (!isObserver) {
             setupObserver()
             isObserver = true
         }
     }
 
     private fun setupObserver() {
-        homeView.albums.observe(viewLifecycleOwner) {
+        homeViewModel.albums.observe(viewLifecycleOwner) {
             albumViewModel.setAlbums(it)
-
         }
-        homeView.songs.observe(viewLifecycleOwner) {
-            songViewModel.setSongs(it)
+        homeViewModel.songs.observe(viewLifecycleOwner) {
+            homeViewModel.saveSongToDB()
+        }
+        homeViewModel.localSongs.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                homeViewModel.songs.observe(viewLifecycleOwner) { remoteSongs ->
+                    songViewModel.setSongs(remoteSongs)
+                }
+            } else {
+                songViewModel.setSongs(it)
+            }
         }
     }
-
 }

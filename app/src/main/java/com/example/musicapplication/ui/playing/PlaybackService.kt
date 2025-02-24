@@ -1,7 +1,9 @@
 package com.example.musicapplication.ui.playing
 
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.Looper
+import android.os.Process
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -64,12 +66,29 @@ class PlaybackService : MediaSessionService() {
             }
             handler?.postDelayed({
                 val player = mediaSession.player
-                if (player.isPlaying) {
-                    SharedViewModel.instance?.insertRecentSongToDB(song)
+                        if (player.isPlaying) {
+                            SharedViewModel.instance?.insertRecentSongToDB(song)
+                    saveCounterAndReplay()
                 }
             }, 5000)
         }
     }
+
+    private fun saveCounterAndReplay() {
+        val song = extractSong()
+        song?.let {
+            val handlerThread = HandlerThread(
+                "UpdateHandlerAndReplayThread",
+                Process.THREAD_PRIORITY_BACKGROUND
+            )
+            handlerThread.start()
+            val handler = Handler(handlerThread.looper)
+            handler.post {
+                SharedViewModel.instance?.updateSongInDB(song)
+            }
+        }
+    }
+
 
     private fun extractSong(): Song? {
         return SharedViewModel.instance?.playingSong?.value?.song

@@ -18,15 +18,16 @@ class SongRepositoryImpl(
         remoteSongDataSource.loadSongs(callback)
     }
 
-    override suspend fun getAllSongs(): List<Song> {
-        return localSongDataSource.getAllSongs()
-    }
+    override val songs: Flow<List<Song>>
+        get() = localSongDataSource.songs
+
 
     override val favoriteSongs: Flow<List<Song>>
         get() = localSongDataSource.favoriteSongs
 
-    override suspend fun insertSong(song: Song) {
-        localSongDataSource.insertSong(song)
+
+    override suspend fun insertSong(vararg song: Song) {
+        localSongDataSource.insertSong(*song)
     }
 
     override suspend fun deleteSong(song: Song) {

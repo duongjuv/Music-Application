@@ -116,6 +116,14 @@ class SharedViewModel private constructor(
         }
     }
 
+    fun updateSongInDB(song: Song) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ++song.counter
+            ++song.replay
+            songRepository.updateSong(song)
+        }
+    }
+
     companion object {
         var instance: SharedViewModel? = null
             private set

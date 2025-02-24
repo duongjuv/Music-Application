@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface SongRepository {
     interface Local {
-        suspend fun getAllSongs(): List<Song>
+        val songs: Flow<List<Song>>
 
         val favoriteSongs: Flow<List<Song>>
 
-        suspend fun insertSong(song: Song)
+        suspend fun insertSong(vararg songs: Song)
 
         suspend fun deleteSong(song: Song)
 
