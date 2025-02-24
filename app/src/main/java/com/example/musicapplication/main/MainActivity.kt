@@ -1,9 +1,12 @@
 package com.example.musicapplication.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.musicapplication.MusicApplication
+import com.example.musicapplication.ui.viewmodel.SharedViewModel
 import net.braniumacademy.musicapplication.R
 
 import net.braniumacademy.musicapplication.databinding.ActivityMainBinding
@@ -11,6 +14,13 @@ import net.braniumacademy.musicapplication.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val shareViewModel: SharedViewModel by viewModels() {
+        val application = application as MusicApplication
+        SharedViewModel.Factory(
+            application.getSongRepository(),
+            application.getRecentSongRepository()
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,5 +41,6 @@ class MainActivity : AppCompatActivity() {
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 
         setupWithNavController(binding.navView, navController)
+        shareViewModel.initPlaylist()
     }
 }

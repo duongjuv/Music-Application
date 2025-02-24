@@ -8,6 +8,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.example.musicapplication.MusicApplication
 import com.example.musicapplication.data.model.album.Album
 import com.example.musicapplication.ui.home.HomeViewModel
 import com.example.musicapplication.ui.home.album.detail.DetailAlbumFragment
@@ -22,7 +23,12 @@ class AlbumHotFragment : Fragment() {
     private lateinit var adapter: AlbumAdapter
     private val albumViewModel: AlbumHotViewModel by activityViewModels()
     private val detailAlbumViewModel: DetailAlbumViewModel by activityViewModels()
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels {
+        val application = requireActivity().application as MusicApplication
+        HomeViewModel.Factory(
+            application.getSongRepository()
+        )
+    }
     private val moreAlbumViewModel: MoreAlbumViewModel by activityViewModels()
 
     override fun onCreateView(

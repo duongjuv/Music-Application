@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.musicapplication.MusicApplication
 import com.example.musicapplication.ui.home.album.AlbumHotViewModel
 import com.example.musicapplication.ui.home.recommended.RecommendedViewModel
 import net.braniumacademy.musicapplication.databinding.FragmentHomeBinding
@@ -14,7 +15,13 @@ import net.braniumacademy.musicapplication.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var _binding: FragmentHomeBinding
-    private val homeView: HomeViewModel by activityViewModels()
+    private val homeView: HomeViewModel by activityViewModels {
+        val application = requireActivity().application as MusicApplication
+        HomeViewModel.Factory(
+            application.getSongRepository()
+        )
+    }
+
     private val albumViewModel: AlbumHotViewModel by activityViewModels()
     private val songViewModel: RecommendedViewModel by activityViewModels()
     private var isObserver = false

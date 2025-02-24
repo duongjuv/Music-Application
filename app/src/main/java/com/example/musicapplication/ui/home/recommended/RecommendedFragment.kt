@@ -10,6 +10,8 @@ import com.example.musicapplication.ui.PlayerBaseFragment
 import com.example.musicapplication.ui.home.recommended.more.MoreRecommendedFragment
 import com.example.musicapplication.ui.home.recommended.more.MoreRecommendedViewModel
 import com.example.musicapplication.ui.playing.MiniPlayerViewModel
+import com.example.musicapplication.ui.viewmodel.SharedViewModel
+import com.example.musicapplication.utils.MusicAppUtils
 import net.braniumacademy.musicapplication.R
 import net.braniumacademy.musicapplication.databinding.FragmentRecommededBinding
 
@@ -38,7 +40,8 @@ class RecommendedFragment : PlayerBaseFragment() {
         adapter = SongAdapter(
             object : SongAdapter.OnSongClickListener {
                 override fun onClick(song: Song, index: Int) {
-                    playSong(song, index)
+                    val player = MusicAppUtils.DefaultPlaylistName.RECOMMENDED.value
+                    playSong(song, index, player)
                 }
             },
             object : SongAdapter.OnSongOptionMenuClickListener {
@@ -61,6 +64,8 @@ class RecommendedFragment : PlayerBaseFragment() {
         recommendedViewModel.songs.observe(viewLifecycleOwner) { songs ->
             adapter.updateSongs(songs.subList(0, 16))
             moreRecommendedViewModel.setRecommendedSongs(songs)
+            val player = MusicAppUtils.DefaultPlaylistName.RECOMMENDED.value
+            SharedViewModel.instance?.setupPlaylist(songs, player)
         }
     }
 

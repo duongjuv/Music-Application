@@ -1,16 +1,31 @@
 package com.example.musicapplication.data.model
 
 import androidx.media3.common.MediaItem
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.example.musicapplication.data.model.song.Song
 import java.util.Date
 
+@Entity(tableName = "playlists")
 data class Playlist(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "playlist_id")
     private var _id: Int = 10001,
+
+    @ColumnInfo(name = "name")
     var name: String = "",
+
+    @ColumnInfo(name = "artwork")
     var artwork: String? = null,
+
+    @ColumnInfo(name = "created_at")
     var createdAt: Date? = null
 ) {
+    @Ignore
     private val _mediaItems: MutableList<MediaItem> = mutableListOf()
+    @Ignore
     var songs: List<Song>? = listOf()
 
     var id: Int

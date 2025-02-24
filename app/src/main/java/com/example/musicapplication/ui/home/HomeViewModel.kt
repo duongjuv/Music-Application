@@ -1,23 +1,24 @@
 package com.example.musicapplication.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.musicapplication.ResultCallback
 import com.example.musicapplication.data.model.album.Album
 import com.example.musicapplication.data.model.song.Song
 import com.example.musicapplication.data.model.song.SongList
 import com.example.musicapplication.data.repository.AlbumRepositoryImpl
-import com.example.musicapplication.data.repository.SongRepositoryImpl
+import com.example.musicapplication.data.repository.song.SongRepositoryImpl
 import com.example.musicapplication.data.source.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val songRepository: SongRepositoryImpl
+) : ViewModel() {
     private val albumRepository = AlbumRepositoryImpl()
-    private val songRepository = SongRepositoryImpl()
 
     private val _albums = MutableLiveData<List<Album>>()
     private val _songs = MutableLiveData<List<Song>>()
@@ -59,6 +60,19 @@ class HomeViewModel : ViewModel() {
                     }
                 }
             })
+        }
+    }
+
+    class Factory(
+        private val songRepository: SongRepositoryImpl
+    ) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+                return HomeViewModel((songRepository)) as T
+            } else {
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
         }
     }
 }
