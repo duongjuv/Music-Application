@@ -24,17 +24,17 @@ class SharedViewModel private constructor(
     private val _playingSong = PlayingSong()
     private val _playlists: MutableMap<String, Playlist> = HashMap()
     private val _indexToPlay = MutableLiveData<Int>()
+    private val _isReady = MutableLiveData<Boolean>()
 
     val playingSong: LiveData<PlayingSong> = _playingSongLiveData
     val currentPlaylist: LiveData<Playlist> = _currentPlaylist
     val indexToPlay: LiveData<Int> = _indexToPlay
+    val isReady: LiveData<Boolean> = _isReady
 
     init {
-        if (instance == null) {
+        if (_instance == null) {
             synchronized(SharedViewModel::class.java) {
-                if (instance == null) {
-                    instance = this
-                }
+                _instance = this
             }
         }
     }
@@ -63,11 +63,12 @@ class SharedViewModel private constructor(
         return RecentSong.Builder(song).build()
     }
 
-    fun setupPlaylist(songs: List<Song>?, playlistName: String) {
+    fun setupPlaylist(songs: List<Song>, playlistName: String) {
         val playlist = _playlists.getOrDefault(playlistName, null)
         playlist?.let {
             it.updateSongList(songs)
             updatePlaylist(it)
+            _isReady.value = true
         }
     }
 
@@ -124,8 +125,32 @@ class SharedViewModel private constructor(
         }
     }
 
+    fun loadPreviousSessionSong(songId: String?, playlistName: String?) {
+        if(playlistName != null) {
+            setCurrentPlaylist(playlistName)
+        }
+        var playlist = _playlists.getOrDefault(playlistName, null)
+        if (playlist == null) {
+            playlist =
+                _playlists.getOrDefault(MusicAppUtils.DefaultPlaylistName.DEFAULT.value, null)
+        }
+        if (songId != null && playlist != null) {
+            _playingSong.playlist = playlist
+            val songList = playlist.songs
+            val index = songList.indexOfFirst { it.id == songId }
+            if (index > 0) {
+                val song = songList[index]
+                _playingSong.song = song
+                _playingSong.currentIndex = index
+                setIndexToPlay(index)
+            }
+            updatePlayingSong()
+        }
+    }
+
     companion object {
-        var instance: SharedViewModel? = null
-            private set
+        private var _instance: SharedViewModel? = null
+        val instance: SharedViewModel
+            get() = _instance!!
     }
 }

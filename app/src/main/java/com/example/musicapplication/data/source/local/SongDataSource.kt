@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SongDataSource {
     interface Local {
-        val songs: Flow<List<Song>>
+        val songs: List<Song>
 
         val favoriteSongs: Flow<List<Song>>
 

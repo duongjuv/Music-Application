@@ -3,6 +3,7 @@ package com.example.musicapplication.ui.playing
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ class MiniPlayerFragment : Fragment(), View.OnClickListener {
     private var mediaController: MediaController? = null
     private lateinit var pressedAnimator: Animator
     private lateinit var rotationAnimator: ObjectAnimator
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,7 @@ class MiniPlayerFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        setupViewModel()
         setupAnimator()
         setupMediaController()
         setupObserve()
@@ -73,12 +76,12 @@ class MiniPlayerFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupFavorite() {
-        val playingSong = SharedViewModel.instance?.playingSong?.value
+        val playingSong = sharedViewModel.playingSong.value
         playingSong?.let {
             val song = it.song
             song!!.favorite = !song.favorite
             updateFavoriteStatus(song)
-            SharedViewModel.instance?.updateFavoriteStatus(song)
+            sharedViewModel.updateFavoriteStatus(song)
         }
     }
 
@@ -86,6 +89,19 @@ class MiniPlayerFragment : Fragment(), View.OnClickListener {
         binding.btnMiniPlayerFavorite.setOnClickListener(this)
         binding.btnMiniPlayerPlayPause.setOnClickListener(this)
         binding.btnMiniPlayerSkipNext.setOnClickListener(this)
+        binding.root.setOnClickListener {
+            navigateToNowPlaying()
+        }
+    }
+
+    private fun setupViewModel() {
+        sharedViewModel = SharedViewModel.instance
+    }
+
+    private fun navigateToNowPlaying() {
+        Intent(requireContext(), NowPlayingActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     private fun setupAnimator() {
@@ -106,40 +122,45 @@ class MiniPlayerFragment : Fragment(), View.OnClickListener {
             controller?.let {
                 mediaController = it
                 setupListener()
+                setupObserveForMediaController()
+            }
+        }
+    }
+
+    private fun setupObserveForMediaController() {
+        mediaController?.let {
+            viewModel.mediaItems.observe(viewLifecycleOwner) { mediaItems ->
+                it.setMediaItems(mediaItems)
+            }
+            sharedViewModel.indexToPlay.observe(viewLifecycleOwner) { index ->
+                if (index > -1 && it.mediaItemCount > index) {
+                    it.seekTo(index, 0)
+                    it.prepare()
+                    //it.play()
+                }
             }
         }
     }
 
     private fun setupListener() {
-        mediaController?.let {
-            it.addListener(object : Player.Listener {
-                override fun onIsPlayingChanged(isPlaying: Boolean) {
-                    viewModel.setPlayingState(isPlaying)
-                }
-            })
-        }
+        mediaController?.addListener(object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                viewModel.setPlayingState(isPlaying)
+            }
+        })
     }
 
     private fun setupObserve() {
-        SharedViewModel.instance?.playingSong?.observe(viewLifecycleOwner) {
+        sharedViewModel.playingSong.observe(viewLifecycleOwner) {
             it.song?.let { song ->
                 showSongInfo(song)
             }
         }
 
-        SharedViewModel.instance?.currentPlaylist?.observe(viewLifecycleOwner) {
+        sharedViewModel.currentPlaylist.observe(viewLifecycleOwner) {
             viewModel.setMediaItem(it.mediaItems)
         }
-        viewModel.mediaItems.observe(viewLifecycleOwner) { mediaItems ->
-            mediaController?.setMediaItems(mediaItems)
-        }
-        SharedViewModel.instance?.indexToPlay?.observe(viewLifecycleOwner) { index ->
-            if (index > -1 && mediaController != null && mediaController!!.mediaItemCount > index) {
-                mediaController!!.seekTo(index, 0)
-                mediaController!!.prepare()
-                mediaController!!.play()
-            }
-        }
+
         viewModel.isPlaying.observe(viewLifecycleOwner) {
             if (it) { // playing
                 binding.btnMiniPlayerPlayPause.setImageResource(R.drawable.ic_pause_circle)

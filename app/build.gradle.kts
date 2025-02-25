@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.room.paging)
     implementation(libs.room.ktx)
     implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.sceneform.base)
     ksp(libs.room.compiler)
 
     implementation(libs.preference)

@@ -26,7 +26,7 @@ data class Playlist(
     @Ignore
     private val _mediaItems: MutableList<MediaItem> = mutableListOf()
     @Ignore
-    var songs: List<Song>? = listOf()
+    var songs: List<Song> = listOf()
 
     var id: Int
         get() = _id
@@ -41,14 +41,14 @@ data class Playlist(
     val mediaItems: List<MediaItem>
         get() = _mediaItems
 
-    fun updateSongList(songs: List<Song>?) {
+    fun updateSongList(songs: List<Song>) {
         this.songs = songs
         updateMediaItems()
     }
 
     private fun updateMediaItems() {
         _mediaItems.clear()
-        songs?.forEach { song ->
+        songs.forEach { song ->
             _mediaItems.add(MediaItem.fromUri(song.source))
         }
     }

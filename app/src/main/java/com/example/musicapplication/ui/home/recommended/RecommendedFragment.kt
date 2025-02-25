@@ -65,7 +65,7 @@ class RecommendedFragment : PlayerBaseFragment() {
             adapter.updateSongs(songs.subList(0, 16))
             moreRecommendedViewModel.setRecommendedSongs(songs)
             val player = MusicAppUtils.DefaultPlaylistName.RECOMMENDED.value
-            SharedViewModel.instance?.setupPlaylist(songs, player)
+            SharedViewModel.instance.setupPlaylist(songs, player)
         }
     }
 

@@ -18,7 +18,7 @@ class SongRepositoryImpl(
         remoteSongDataSource.loadSongs(callback)
     }
 
-    override val songs: Flow<List<Song>>
+    override val songs: List<Song>
         get() = localSongDataSource.songs
 
 
